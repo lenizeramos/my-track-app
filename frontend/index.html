@@ -4,39 +4,57 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MyTracker</title>
+    <link rel="stylesheet" href="../src/css/style.css" />
   </head>
   <body>
     <nav>
       <h1>myTrakr</h1>
     </nav>
     <main>
-      <section>
+      <section id="create_account">
         <h2>Create New Account</h2>
         <label for="new_account">Account Name:</label>
         <input type="text" id="new_account" placeholder="Enter account name" />
         <input type="button" value="Add new account" />
       </section>
 
-      <section>
+      <section id="create_category">
+        <h2>Create New Category</h2>
+        <label for="new_category">Category Name:</label>
+        <input
+          type="text"
+          id="new_category"
+          placeholder="Enter category name"
+        />
+        <input type="button" value="Add new category" />
+      </section>
+
+      <section id="new_transaction">
         <h2>New Transaction</h2>
-        <div>
-          <p>Select Transaction Type:</p>
-          <input type="radio" id="deposit" name="transaction" value="deposit" />
-          <label for="deposit">Deposit</label>
-          <input
-            type="radio"
-            id="withdraw"
-            name="transaction"
-            value="withdraw"
-          />
-          <label for="withdraw">Withdraw</label>
-          <input
-            type="radio"
-            id="transfer"
-            name="transaction"
-            value="transfer"
-          />
-          <label for="transfer">Transfer</label>
+        <p>Select Transaction Type:</p>
+        <div id="radio_group">
+          <div>
+              <input type="radio" id="deposit" name="transaction" value="deposit" />
+              <label for="deposit">Deposit</label>
+          </div>
+          <div>
+              <input
+                type="radio"
+                id="withdraw"
+                name="transaction"
+                value="withdraw"
+              />
+              <label for="withdraw">Withdraw</label>
+          </div>
+          <div>
+              <input
+                type="radio"
+                id="transfer"
+                name="transaction"
+                value="transfer"
+              />
+              <label for="transfer">Transfer</label>
+          </div>
         </div>
 
         <div>
@@ -60,15 +78,17 @@
         <div>
           <label for="description">Description: </label>
           <input type="text" id="description" placeholder="Enter description" />
-
-          <label for="amount">Amount: </label>
-          <input type="text" id="amount" placeholder="Enter amount" />
+        </div>
+          <div>
+              <label for="amount">Amount: </label>
+              <input type="text" id="amount" placeholder="Enter amount" />
+          </div>
 
           <input type="button" value="Add transaction" />
-        </div>
+        
       </section>
 
-      <section>
+      <section id="account_summary">
         <h2>Account Summary</h2>
         <table>
           <thead>
@@ -86,7 +106,7 @@
         </table>
       </section>
 
-      <section>
+      <section id="transaction_history">
         <h2>Transaction History</h2>
         <label for="filter_account">Filter by Account:</label>
         <select id="filter_account">
@@ -95,32 +115,34 @@
           <option value="savings">Savings</option>
         </select>
 
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Username</th>
-              <th>Transaction Type</th>
-              <th>Category</th>
-              <th>Description</th>
-              <th>Amount</th>
-              <th>From</th>
-              <th>To</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Example</td>
-              <td>Example</td>
-              <td>Example</td>
-              <td>Example</td>
-              <td>Example</td>
-              <td>$0.00</td>
-              <td>Example</td>
-              <td>Example</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-container">
+            <table class="responsive-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Username</th>
+                  <th>Transaction Type</th>
+                  <th>Category</th>
+                  <th>Description</th>
+                  <th>Amount</th>
+                  <th>From</th>
+                  <th>To</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Example</td>
+                  <td>Example</td>
+                  <td>Example</td>
+                  <td>Example</td>
+                  <td>Example</td>
+                  <td>$0.00</td>
+                  <td>Example</td>
+                  <td>Example</td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
       </section>
     </main>
   </body>

@@ -1,0 +1,285 @@
+$primaryColor: rgb(1, 180, 1);
+$hoverColor: rgb(0, 107, 0);
+$backgroundColor: #f4f4f4;
+$white: #fff;
+$borderColor: #ddd;
+$borderRadius: 4px;
+$fontFamily: Arial, sans-serif;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $fontFamily;
+  background-color: $backgroundColor;
+  width: 100vw;
+  height: 100vh;
+}
+
+nav {
+  background-color: $primaryColor;
+  color: $white;
+  padding: 1rem;
+  text-align: center;
+
+  h1 {
+    font-size: 1.8rem;
+  }
+}
+
+main {
+  margin: 0 auto;
+  padding: 1rem;
+  width: 90%;
+
+  #create_account {
+    background: $white;
+    padding: 1rem;
+    border-radius: $borderRadius;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+
+    h2 {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid $borderColor;
+      border-radius: $borderRadius;
+    }
+
+    input[type="button"] {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: $borderRadius;
+      background-color: $primaryColor;
+      color: $white;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $hoverColor;
+      }
+    }
+  }
+
+  #create_category {
+    background: $white;
+    padding: 1rem;
+    border-radius: $borderRadius;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+
+    h2 {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid $borderColor;
+      border-radius: $borderRadius;
+    }
+
+    input[type="button"] {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: $borderRadius;
+      background-color: $primaryColor;
+      color: $white;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $hoverColor;
+      }
+    }
+  }
+
+  #new_transaction {
+    background: $white;
+    padding: 1rem;
+    border-radius: $borderRadius;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+
+    h2 {
+      margin-bottom: 1rem;
+    }
+
+    p {
+      margin-bottom: 0.5rem;
+    }
+
+    #radio_group {
+      margin: 0.5rem 0;
+      display: flex;
+      flex-wrap: wrap;
+
+      div {
+        margin-right: 0.5rem;
+      }
+    }
+
+    label {
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      border: 1px solid $borderColor;
+      border-radius: $borderRadius;
+    }
+
+    input[type="button"] {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: $borderRadius;
+      background-color: $primaryColor;
+      color: $white;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $hoverColor;
+      }
+    }
+  }
+
+  #account_summary {
+    background: $white;
+    padding: 1rem;
+    border-radius: $borderRadius;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+
+    h2 {
+      margin-bottom: 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+
+      th,
+      td {
+        padding: 0.7rem;
+        text-align: left;
+        border: 1px solid $borderColor;
+      }
+
+      th {
+        background-color: #f4f4f4;
+      }
+    }
+  }
+
+  #transaction_history {
+    background: $white;
+    padding: 1rem;
+    border-radius: $borderRadius;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+
+    h2 {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    select {
+      padding: 0.5rem;
+      border: 1px solid $borderColor;
+      border-radius: $borderRadius;
+      margin-bottom: 0.5rem;
+    }
+
+    .table-container {
+      overflow-x: auto;
+
+      .responsive-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+
+        th,
+        td {
+          padding: 0.7rem;
+          text-align: left;
+          border: 1px solid $borderColor;
+        }
+
+        th {
+          background-color: #f4f4f4;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 601px) {
+  main {
+    width: 80%;
+  }
+
+  #transaction_history {
+    thead {
+      display: table-header-group;
+    }
+
+    tbody {
+      display: table-row-group;
+    }
+
+    tr {
+      display: table-row;
+      border: none;
+    }
+
+    td {
+      display: table-cell;
+      position: static;
+      padding-left: 0;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  main {
+    width: 70%;
+  }
+}
+
+@media (min-width: 992px) {
+  main {
+    width: 60%;
+  }
+}
+
+@media (min-width: 1200px) {
+  main {
+    width: 50%;
+  }
+}
