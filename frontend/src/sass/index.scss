@@ -219,7 +219,7 @@ main {
     .table-container {
       overflow-x: auto;
 
-      .responsive-table {
+      #transaction_history_table {
         width: 100%;
         border-collapse: collapse;
         margin-top: 1rem;
@@ -242,27 +242,6 @@ main {
 @media (min-width: 601px) {
   main {
     width: 80%;
-  }
-
-  #transaction_history {
-    thead {
-      display: table-header-group;
-    }
-
-    tbody {
-      display: table-row-group;
-    }
-
-    tr {
-      display: table-row;
-      border: none;
-    }
-
-    td {
-      display: table-cell;
-      position: static;
-      padding-left: 0;
-    }
   }
 }
 
