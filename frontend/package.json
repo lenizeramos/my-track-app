@@ -1,23 +1,18 @@
 {
-  "name": "trackapp",
+  "name": "wad-202-tracker-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Goal",
   "main": "index.js",
   "scripts": {
-    "build:css": "sass -w frontend/src/sass:frontend/src/css",
-    "live-server": "live-server frontend/src --open=",
-    "dev": "concurrently 'npm run build:css' 'npm run live-server'"
+    "build:css": "sass -w src/sass:src/css",
+    "live": "live-server src --verbose",
+    "dev": "concurrently \"npm run build:css\" \"npm run live\""
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/jquery": "^3.5.29",
-    "concurrently": "^8.2.2",
+    "concurrently": "^8.2.1",
     "live-server": "^1.2.2",
-    "sass": "^1.75.0"
-  },
-  "dependencies": {
-    "gsap": "^3.12.5"
+    "sass": "^1.69.3"
   }
 }
