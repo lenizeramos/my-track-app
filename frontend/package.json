@@ -1,0 +1,23 @@
+{
+  "name": "TrackApp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "sass -w frontend/src/sass:src/css",
+    "live-server": "live-server frontend/src --open=frontend",
+    "dev": "concurrently 'npm run build:css' 'npm run live-server'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jquery": "^3.5.29",
+    "concurrently": "^8.2.2",
+    "live-server": "^1.2.2",
+    "sass": "^1.75.0"
+  },
+  "dependencies": {
+    "gsap": "^3.12.5"
+  }
+}
