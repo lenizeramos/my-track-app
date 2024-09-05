@@ -1,11 +1,11 @@
 {
-  "name": "TrackApp",
+  "name": "trackapp",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:css": "sass -w frontend/src/sass:src/css",
-    "live-server": "live-server frontend/src --open=frontend",
+    "build:css": "sass -w frontend/src/sass:frontend/src/css",
+    "live-server": "live-server frontend/src --open=",
     "dev": "concurrently 'npm run build:css' 'npm run live-server'"
   },
   "keywords": [],
