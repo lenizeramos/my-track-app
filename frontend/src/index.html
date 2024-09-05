@@ -4,24 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="css/index.css" />
-   
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    
+
     <title>MyTracker</title>
   </head>
   <body>
-     <nav>
-      <h1>myTrakr</h1>
+    <nav>
+      <h1>myTraker</h1>
     </nav>
     <main>
       <section id="create_account">
         <h2>Create New Account</h2>
         <label for="new_account">Account Name:</label>
-        <input type="text" id="new_account" placeholder="Enter account name" />
-        <input type="button" value="Add new account" />
+        <input
+          type="text"
+          id="new_account"
+          placeholder="Enter account name"
+          autocomplete="off"
+        />
+        <button id="add_new_account">Add new account</button>
       </section>
 
       <section id="create_category">
@@ -31,8 +39,9 @@
           type="text"
           id="new_category"
           placeholder="Enter category name"
+          autocomplete="off"
         />
-        <input type="button" value="Add new category" />
+        <button>Add new category</button>
       </section>
 
       <section id="new_transaction">
@@ -40,35 +49,38 @@
         <p>Select Transaction Type:</p>
         <div id="radio_group">
           <div>
-              <input type="radio" id="deposit" name="transaction" value="deposit" />
-              <label for="deposit">Deposit</label>
+            <input
+              type="radio"
+              id="deposit"
+              name="transaction"
+              value="deposit"
+            />
+            <label for="deposit">Deposit</label>
           </div>
           <div>
-              <input
-                type="radio"
-                id="withdraw"
-                name="transaction"
-                value="withdraw"
-              />
-              <label for="withdraw">Withdraw</label>
+            <input
+              type="radio"
+              id="withdraw"
+              name="transaction"
+              value="withdraw"
+            />
+            <label for="withdraw">Withdraw</label>
           </div>
           <div>
-              <input
-                type="radio"
-                id="transfer"
-                name="transaction"
-                value="transfer"
-              />
-              <label for="transfer">Transfer</label>
+            <input
+              type="radio"
+              id="transfer"
+              name="transaction"
+              value="transfer"
+            />
+            <label for="transfer">Transfer</label>
           </div>
         </div>
 
         <div>
           <label for="select_account">Account:</label>
           <select name="" id="select_account">
-            <option value="choose">Choose...</option>
-            <option value="checking">Checking</option>
-            <option value="savings">Savings</option>
+            <option value="" disabled selected>Choose...</option>
           </select>
         </div>
 
@@ -85,30 +97,24 @@
           <label for="description">Description: </label>
           <input type="text" id="description" placeholder="Enter description" />
         </div>
-          <div>
-              <label for="amount">Amount: </label>
-              <input type="text" id="amount" placeholder="Enter amount" />
-          </div>
+        <div>
+          <label for="amount">Amount: </label>
+          <input type="text" id="amount" placeholder="Enter amount" />
+        </div>
 
-          <input type="button" value="Add transaction" />
-        
+        <button>Add transaction</button>
       </section>
 
       <section id="account_summary">
         <h2>Account Summary</h2>
-        <table>
+        <table id="account_summary_table">
           <thead>
             <tr>
               <th>Account</th>
               <th>Balance</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>Example</td>
-              <td>$0.00</td>
-            </tr>
-          </tbody>
+          <tbody></tbody>
         </table>
       </section>
 
@@ -122,36 +128,35 @@
         </select>
 
         <div class="table-container">
-            <table class="responsive-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Username</th>
-                  <th>Transaction Type</th>
-                  <th>Category</th>
-                  <th>Description</th>
-                  <th>Amount</th>
-                  <th>From</th>
-                  <th>To</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Example</td>
-                  <td>Example</td>
-                  <td>Example</td>
-                  <td>Example</td>
-                  <td>Example</td>
-                  <td>$0.00</td>
-                  <td>Example</td>
-                  <td>Example</td>
-                </tr>
-              </tbody>
-            </table>
+          <table class="responsive-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Transaction Type</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>From</th>
+                <th>To</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Example</td>
+                <td>Example</td>
+                <td>Example</td>
+                <td>Example</td>
+                <td>Example</td>
+                <td>$0.00</td>
+                <td>Example</td>
+                <td>Example</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
     </main>
-    <script src="./js/script.js"></script>
+    <script src="js/script.js"></script>
   </body>
 </html>
-
