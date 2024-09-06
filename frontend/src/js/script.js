@@ -1,6 +1,7 @@
 $(() => {
   createNewAccount();
   loadAccounts();
+  createNewCategory()
 });
 
 function createNewAccount() {
@@ -20,8 +21,36 @@ function createNewAccount() {
 
     $.ajax(settings)
       .done(function (response) {
-        console.log(response);
+        console.log(settings);
         $("#new_account").val("");
+        loadAccounts();
+      })
+      .fail(function (error) {
+        console.error("Error:", error);
+      });
+  });
+}
+
+function createNewCategory() {
+  $("#create-category-button").on("click", function () {
+    let accountCategory = $("#new_category").val().trim().toLowerCase();
+    let allCategories = { newCategory: accountCategory };
+    console.log(allCategories);
+
+    let settings = {
+      url: "http://localhost:3000/categories",
+      method: "POST",
+      timeout: 0,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      data: allCategories,
+    };
+
+    $.ajax(settings)
+      .done(function (response) {
+        console.log(response);
+        $("#new_category").val("");
         loadAccounts();
       })
       .fail(function (error) {
