@@ -1,6 +1,11 @@
 $(() => {
   createNewAccount();
   loadAccounts();
+
+  $("#transactions_button").on("click", function(){
+    createNewTransaction();
+    
+  });
 });
 
 function createNewAccount() {
@@ -77,4 +82,47 @@ function addAcountSummary(accounts, balance) {
 
     $("#account_summary_table tbody").append(tableRow);
   });
+}
+
+function createNewTransaction(){
+  if(!validateTransferData()) {
+    console.log("You should fill all the fields");
+  }else{
+    var radioOptionChecked = $("input[name='transaction']:checked").val();
+
+    switch (radioOptionChecked) {
+      case "deposit":
+          createNewDeposit();
+        break;
+      case "withdraw":
+          createNewWithdraw();
+        break;
+      case "transfer":
+          createNewTransfer();
+        break;
+    
+    }
+  }
+}
+
+function validateTransferData(){
+  var transactionType = $("#select_account").val();
+  var categoryType = $("#select_category").val();
+  var descriptionText = $("#description").val();
+  var amountQuantity = $("#amount").val();
+
+  if(
+    transactionType == null ||
+    categoryType == null ||
+    descriptionText == "" ||
+    amountQuantity == ""
+  ){
+    return false;
+  }else{
+    return true;
+  }
+}
+
+async function createNewTransfer(){
+  
 }

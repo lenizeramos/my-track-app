@@ -116,6 +116,7 @@ main #new_transaction label {
   font-weight: bold;
 }
 main #new_transaction input[type=text],
+main #new_transaction input[type=number],
 main #new_transaction select {
   width: 100%;
   padding: 0.5rem;

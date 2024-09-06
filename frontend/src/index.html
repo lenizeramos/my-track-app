@@ -54,6 +54,7 @@
               id="deposit"
               name="transaction"
               value="deposit"
+              checked
             />
             <label for="deposit">Deposit</label>
           </div>
@@ -87,7 +88,7 @@
         <div>
           <label for="select_category">Category:</label>
           <select name="" id="select_category">
-            <option value="choose">Choose...</option>
+            <option value="" disabled selected>Choose...</option>
             <option value="groceries">Groceries</option>
             <option value="gasoline">Gasoline</option>
           </select>
@@ -99,10 +100,10 @@
         </div>
         <div>
           <label for="amount">Amount: </label>
-          <input type="text" id="amount" placeholder="Enter amount" />
+          <input type="number" id="amount" placeholder="Enter amount" />
         </div>
 
-        <button>Add transaction</button>
+        <button id="transactions_button">Add transaction</button>
       </section>
 
       <section id="account_summary">
@@ -157,6 +158,10 @@
         </div>
       </section>
     </main>
+
+    <div class="alert alert-primary" role="alert">
+      A simple primary alert—check it out!
+    </div>
     <script src="js/script.js"></script>
   </body>
 </html>
