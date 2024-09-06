@@ -5,9 +5,37 @@ $(() => {
   loadAccounts();
 });
 
+function appendAlertMessage(id, message, type) {
+  const alertMessageId = $(id);
+  const wrapper = $("<div>");
+  const divAlert = $("<div>", {
+    class: `alert alert-${type} alert-dismissible`,
+    role: "alert",
+  });
+  const divMessage = $("<div>").html(`${message}`);
+  const btnClose = $("<button>", {
+    type: "button",
+    class: "btn-close",
+    "data-bs-dismiss": "alert",
+    "aria-label": "Close",
+  });
+
+  divAlert.append(divMessage, btnClose);
+  wrapper.append(divAlert);
+  alertMessageId.html(wrapper);
+}
+
 async function createNewAccount() {
   let accountName = $("#new_account").val().trim().toLowerCase();
-  let account = { newAccount: accountName };
+
+  if (accountName === "") {
+    appendAlertMessage(
+      "#alertMessageAccount",
+      "Write the account name!",
+      "warning"
+    );
+    return
+  }
 
   if (await isNewAccount(accountName)) {
     let settings = {
@@ -16,18 +44,28 @@ async function createNewAccount() {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      data: account,
+      data: { newAccount: accountName },
     };
     $.ajax(settings)
       .done(function () {
         $("#new_account").val("");
         loadAccounts();
+        appendAlertMessage(
+          "#alertMessageAccount",
+          "Account created successfully!",
+          "success"
+        );
       })
       .fail(function (error) {
         console.error("Error:", error);
       });
   } else {
-    console.log("Account already exists");
+    appendAlertMessage(
+      "#alertMessageAccount",
+      "Account already exists!",
+      "danger"
+    );
+    console.log();
   }
 }
 
@@ -55,7 +93,7 @@ async function loadAccounts() {
   let accounts = await getAccounts();
   buildNewTransactionAccounts(accounts);
   buildAccountSummary(accounts, "$0.00");
-  buildFilterAccount(accounts)
+  buildFilterAccount(accounts);
 }
 
 function buildNewTransactionAccounts(accounts) {
