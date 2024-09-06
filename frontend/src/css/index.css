@@ -181,39 +181,24 @@ main #transaction_history select {
 main #transaction_history .table-container {
   overflow-x: auto;
 }
-main #transaction_history .table-container .responsive-table {
+main #transaction_history .table-container #transaction_history_table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
 }
-main #transaction_history .table-container .responsive-table th,
-main #transaction_history .table-container .responsive-table td {
+main #transaction_history .table-container #transaction_history_table th,
+main #transaction_history .table-container #transaction_history_table td {
   padding: 0.7rem;
   text-align: left;
   border: 1px solid #ddd;
 }
-main #transaction_history .table-container .responsive-table th {
+main #transaction_history .table-container #transaction_history_table th {
   background-color: #f4f4f4;
 }
 
 @media (min-width: 601px) {
   main {
     width: 80%;
-  }
-  #transaction_history thead {
-    display: table-header-group;
-  }
-  #transaction_history tbody {
-    display: table-row-group;
-  }
-  #transaction_history tr {
-    display: table-row;
-    border: none;
-  }
-  #transaction_history td {
-    display: table-cell;
-    position: static;
-    padding-left: 0;
   }
 }
 @media (min-width: 768px) {

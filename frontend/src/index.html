@@ -120,12 +120,26 @@
 
       <section id="transaction_history">
         <h2>Transaction History</h2>
-        <label for="filter_account">Filter by Account:</label>
-        <select id="filter_account">
-          <option value="all">All</option>
-          <option value="checking">Checking</option>
-          <option value="savings">Savings</option>
-        </select>
+        <h3>Filter: </h3>
+        <div id="filter_container">
+          <label for="filter_account">Accounts:</label>
+          <select id="filter_account">
+            <option value="all">All</option>
+            
+          </select>
+          <label for="filter_category">Categories:</label>
+          <select id="filter_category">
+            <option value="all">All</option>
+            <option value="checking">Checking</option>
+            <option value="savings">Savings</option>
+          </select>
+          <label for="filter_transaction">Transactions:</label>
+          <select id="filter_transaction">
+            <option value="all">All</option>
+            <option value="checking">Checking</option>
+            <option value="savings">Savings</option>
+          </select>
+        </div>
 
         <div class="table-container">
           <table id="transaction_history_table">
