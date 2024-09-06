@@ -1,4 +1,4 @@
-$primaryColor: pink;
+$primaryColor: green;
 $hoverColor: rgb(0, 107, 0);
 $backgroundColor: #f4f4f4;
 $white: #fff;
@@ -59,7 +59,7 @@ main {
       border-radius: $borderRadius;
     }
 
-    input[type="button"] {
+    button {
       padding: 0.5rem 1rem;
       border: none;
       border-radius: $borderRadius;
@@ -97,7 +97,7 @@ main {
       border-radius: $borderRadius;
     }
 
-    input[type="button"] {
+    button {
       padding: 0.5rem 1rem;
       border: none;
       border-radius: $borderRadius;
@@ -150,7 +150,7 @@ main {
       border-radius: $borderRadius;
     }
 
-    input[type="button"] {
+    button {
       padding: 0.5rem 1rem;
       border: none;
       border-radius: $borderRadius;
@@ -219,7 +219,7 @@ main {
     .table-container {
       overflow-x: auto;
 
-      .responsive-table {
+      #transaction_history_table {
         width: 100%;
         border-collapse: collapse;
         margin-top: 1rem;
@@ -242,27 +242,6 @@ main {
 @media (min-width: 601px) {
   main {
     width: 80%;
-  }
-
-  #transaction_history {
-    thead {
-      display: table-header-group;
-    }
-
-    tbody {
-      display: table-row-group;
-    }
-
-    tr {
-      display: table-row;
-      border: none;
-    }
-
-    td {
-      display: table-cell;
-      position: static;
-      padding-left: 0;
-    }
   }
 }
 
