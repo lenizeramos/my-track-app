@@ -135,7 +135,11 @@ function buildAccountSummary(accounts, balance) {
 
 function createNewTransaction(){
   if(!validateTransferData()) {
-    console.log("You should fill all the fields");
+    appendAlertMessage(
+      "#alertMessageTransaction",
+      "First you must fill in all the fields",
+      "danger"
+    );
   }else{
     var radioOptionChecked = $("input[name='transaction']:checked").val();
 
