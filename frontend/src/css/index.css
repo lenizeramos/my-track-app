@@ -21,6 +21,10 @@ nav h1 {
   font-size: 1.8rem;
 }
 
+.displayNone {
+  display: none;
+}
+
 main {
   margin: 0 auto;
   padding: 1rem;
@@ -47,7 +51,7 @@ main #create_account input[type=text] {
   border: 1px solid #ddd;
   border-radius: 4px;
 }
-main #create_account button {
+main #create_account .btn {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
@@ -55,7 +59,7 @@ main #create_account button {
   color: #fff;
   cursor: pointer;
 }
-main #create_account button:hover {
+main #create_account .btn:hover {
   background-color: rgb(0, 107, 0);
 }
 main #create_category {
@@ -79,7 +83,7 @@ main #create_category input[type=text] {
   border: 1px solid #ddd;
   border-radius: 4px;
 }
-main #create_category button {
+main #create_category .btn {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
@@ -87,7 +91,7 @@ main #create_category button {
   color: #fff;
   cursor: pointer;
 }
-main #create_category button:hover {
+main #create_category .btn:hover {
   background-color: rgb(0, 107, 0);
 }
 main #new_transaction {
@@ -123,7 +127,7 @@ main #new_transaction select {
   border: 1px solid #ddd;
   border-radius: 4px;
 }
-main #new_transaction button {
+main #new_transaction .btn {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
@@ -131,7 +135,7 @@ main #new_transaction button {
   color: #fff;
   cursor: pointer;
 }
-main #new_transaction button:hover {
+main #new_transaction .btn:hover {
   background-color: rgb(0, 107, 0);
 }
 main #account_summary {
@@ -181,39 +185,24 @@ main #transaction_history select {
 main #transaction_history .table-container {
   overflow-x: auto;
 }
-main #transaction_history .table-container .responsive-table {
+main #transaction_history .table-container #transaction_history_table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
 }
-main #transaction_history .table-container .responsive-table th,
-main #transaction_history .table-container .responsive-table td {
+main #transaction_history .table-container #transaction_history_table th,
+main #transaction_history .table-container #transaction_history_table td {
   padding: 0.7rem;
   text-align: left;
   border: 1px solid #ddd;
 }
-main #transaction_history .table-container .responsive-table th {
+main #transaction_history .table-container #transaction_history_table th {
   background-color: #f4f4f4;
 }
 
 @media (min-width: 601px) {
   main {
     width: 80%;
-  }
-  #transaction_history thead {
-    display: table-header-group;
-  }
-  #transaction_history tbody {
-    display: table-row-group;
-  }
-  #transaction_history tr {
-    display: table-row;
-    border: none;
-  }
-  #transaction_history td {
-    display: table-cell;
-    position: static;
-    padding-left: 0;
   }
 }
 @media (min-width: 768px) {
@@ -228,7 +217,7 @@ main #transaction_history .table-container .responsive-table th {
 }
 @media (min-width: 1200px) {
   main {
-    width: 60%;
+    width: 50%;
   }
 }
 
