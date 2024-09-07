@@ -16,6 +16,15 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"
     />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
   </head>
   <body>
     <nav>
@@ -24,7 +33,7 @@
     <main>
       <section id="create_account">
         <h2>Create New Account</h2>
-        <div id="alertMessageAccount"></div>
+        <div id="alert_message_account"></div>
         <label for="new_account">Account Name:</label>
         <input
           type="text"
@@ -44,11 +53,13 @@
           placeholder="Enter category name"
           autocomplete="off"
         />
-        <button id="create-category-button" class="btn">Add new category</button>
+        <button id="create_category_button" class="btn">
+          Add new category
+        </button>
       </section>
 
       <section id="new_transaction">
-        <div id="alertMessageTransaction"></div>
+        <div id="alert_message_transaction"></div>
         <h2>New Transaction</h2>
         <p>Select Transaction Type:</p>
         <div id="radio_group">
@@ -109,7 +120,7 @@
         <button id="transactions_button" class="btn">Add transaction</button>
       </section>
 
-      <section id="account_mary">
+      <section id="account_summary">
         <h2>Account Summary</h2>
         <table id="account_summary_table">
           <thead>
@@ -139,8 +150,9 @@
           <label for="filter_transaction">Transactions:</label>
           <select id="filter_transaction">
             <option value="all">All</option>
-            <option value="checking">Checking</option>
-            <option value="savings">Savings</option>
+            <option value="">Deposit</option>
+            <option value="">Withdraw</option>
+            <option value="">Transfer</option>
           </select>
         </div>
 
@@ -158,20 +170,11 @@
                 <th>To</th>
               </tr>
             </thead>
-            <tbody id="table_body">
-            </tbody>
+            <tbody id="table_body"></tbody>
           </table>
         </div>
       </section>
     </main>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
     <script src="js/script.js"></script>
   </body>
 </html>
