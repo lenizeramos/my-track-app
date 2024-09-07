@@ -8,6 +8,26 @@ $(() => {
     createNewTransaction();
     
   });
+
+  $("#create-category-button").on("click", function () {
+    let accountCategory = $("#new_category").val().trim().toLowerCase();
+    let allCategories = { newCategory: accountCategory };
+    let settings = {
+      url: "http://localhost:3000/categories",
+      method: "POST",
+      timeout: 0,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      data: allCategories,
+    };
+    
+    $.ajax(settings).done(function () {
+      $("#new_category").val("");
+      loadCategory();
+    })
+  } )
+  loadCategory();
 });
 
 function appendAlertMessage(id, message, type) {
@@ -117,6 +137,29 @@ function buildNewTransactionAccounts(accounts) {
   });
 }
 
+function loadCategory() {
+  let settings = {
+    url: "http://localhost:3000/categories",
+    method: "GET",
+    timeout: 0,
+  };
+  $.ajax(settings).done(function (allCategories) {
+    categoryOptions(allCategories);
+  })
+}
+
+function categoryOptions(allCategories) {
+  let chooseCategory = $("#select_category").find("option").first();
+  $("#select_category").empty().append(chooseCategory);
+  allCategories.forEach((e) => {
+    let diferentOption = $("<option>", {
+      value: e.id,
+    }).html(e.name.charAt(0).toUpperCase() + e.name.slice(1)
+  );
+  $("#select_category").append(diferentOption);
+  });
+}
+
 function buildAccountSummary(accounts, balance) {
   $("#account_summary_table tbody").empty();
 
@@ -161,7 +204,11 @@ function createNewTransaction(){
 }
 
 $(".radio-transaction").on("change", function(){
-  console.log($(".radio-transaction").find(":checked").val());
+  if($("#deposit").is(":checked") || $("#withdraw").is(":checked")){
+
+  }else{
+
+  }
 });
 
 function validateTransferData(){
