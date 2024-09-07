@@ -160,6 +160,10 @@ function createNewTransaction(){
   }
 }
 
+$(".radio-transaction").on("change", function(){
+  console.log($(".radio-transaction").find(":checked").val());
+});
+
 function validateTransferData(){
   var transactionType = $("#select_account").val();
   var categoryType = $("#select_category").val();
