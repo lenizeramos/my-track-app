@@ -30,6 +30,10 @@ nav {
   }
 }
 
+.displayNone {
+  display: none;
+}
+
 main {
   margin: 0 auto;
   padding: 1rem;
@@ -59,7 +63,7 @@ main {
       border-radius: $borderRadius;
     }
 
-    button {
+    .btn {
       padding: 0.5rem 1rem;
       border: none;
       border-radius: $borderRadius;
@@ -97,7 +101,7 @@ main {
       border-radius: $borderRadius;
     }
 
-    button {
+    .btn {
       padding: 0.5rem 1rem;
       border: none;
       border-radius: $borderRadius;
@@ -151,7 +155,7 @@ main {
       border-radius: $borderRadius;
     }
 
-    button {
+    .btn {
       padding: 0.5rem 1rem;
       border: none;
       border-radius: $borderRadius;
@@ -260,6 +264,6 @@ main {
 
 @media (min-width: 1200px) {
   main {
-    width: 60%;
+    width: 50%;
   }
 }

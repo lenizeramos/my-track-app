@@ -1,5 +1,7 @@
 $(() => {
-  createNewAccount();
+  $("#add_new_account").on("click", function () {
+    createNewAccount();
+  });
   loadAccounts();
 
   $("#transactions_button").on("click", function(){
@@ -8,51 +10,98 @@ $(() => {
   });
 });
 
-function createNewAccount() {
-  $("#add_new_account").on("click", function () {
-    let accountName = $("#new_account").val().trim().toLowerCase();
-    let account = { newAccount: accountName };
+function appendAlertMessage(id, message, type) {
+  const alertMessageId = $(id);
+  const wrapper = $("<div>");
+  const divAlert = $("<div>", {
+    class: `alert alert-${type} alert-dismissible`,
+    role: "alert",
+  });
+  const divMessage = $("<div>").html(`${message}`);
+  const btnClose = $("<button>", {
+    type: "button",
+    class: "btn-close",
+    "data-bs-dismiss": "alert",
+    "aria-label": "Close",
+  });
 
+  divAlert.append(divMessage, btnClose);
+  wrapper.append(divAlert);
+  alertMessageId.html(wrapper);
+}
+
+async function createNewAccount() {
+  let accountName = $("#new_account").val().trim().toLowerCase();
+
+  if (accountName === "") {
+    appendAlertMessage(
+      "#alertMessageAccount",
+      "Write the account name!",
+      "warning"
+    );
+    return
+  }
+
+  if (await isNewAccount(accountName)) {
     let settings = {
       url: "http://localhost:3000/accounts",
       method: "POST",
-      timeout: 0,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      data: account,
+      data: { newAccount: accountName },
     };
-
     $.ajax(settings)
-      .done(function (response) {
-        console.log(response);
+      .done(function () {
         $("#new_account").val("");
         loadAccounts();
+        appendAlertMessage(
+          "#alertMessageAccount",
+          "Account created successfully!",
+          "success"
+        );
       })
       .fail(function (error) {
         console.error("Error:", error);
       });
+  } else {
+    appendAlertMessage(
+      "#alertMessageAccount",
+      "Account already exists!",
+      "danger"
+    );
+    console.log();
+  }
+}
+
+async function isNewAccount(newAccountName) {
+  let accounts = await getAccounts();
+
+  return !accounts.some(
+    (account) => account.username.toLowerCase() == newAccountName.toLowerCase()
+  );
+}
+
+async function getAccounts() {
+  return new Promise((resolve, reject) => {
+    $.ajax("http://localhost:3000/accounts")
+      .done(function (accounts) {
+        resolve(accounts);
+      })
+      .fail(function (error) {
+        reject(error);
+      });
   });
 }
 
-function loadAccounts() {
-  let settings = {
-    url: "http://localhost:3000/accounts",
-    method: "GET",
-    timeout: 0,
-  };
-
-  $.ajax(settings)
-    .done(function (accounts) {
-      buildHTMLOptionsAccount(accounts);
-      addAcountSummary(accounts, "$0.00");
-    })
-    .fail(function (error) {
-      console.error("Error:", error);
-    });
+async function loadAccounts() {
+  let accounts = await getAccounts();
+  buildNewTransactionAccounts(accounts);
+  buildAccountSummary(accounts, "$0.00");
+  buildFilterAccount(accounts);
 }
 
-function buildHTMLOptionsAccount(accounts) {
+function buildNewTransactionAccounts(accounts) {
   let chooseOption = $("#select_account").find("option").first();
 
   $("#select_account").empty().append(chooseOption);
@@ -68,7 +117,7 @@ function buildHTMLOptionsAccount(accounts) {
   });
 }
 
-function addAcountSummary(accounts, balance) {
+function buildAccountSummary(accounts, balance) {
   $("#account_summary_table tbody").empty();
 
   accounts.forEach((account) => {
@@ -157,4 +206,20 @@ async function createNewTransfer(type, transferFrom, transferTo){
     .fail(function (error) {
       console.error("Error:", error);
     });
+}
+
+function buildFilterAccount(accounts) {
+  let allOption = $("#filter_account").find("option").first();
+
+  $("#filter_account").empty().append(allOption);
+
+  accounts.forEach((account) => {
+    let option = $("<option>", {
+      value: account.id,
+    }).html(
+      account.username.charAt(0).toUpperCase() + account.username.slice(1)
+    );
+
+    $("#filter_account").append(option);
+  });
 }
