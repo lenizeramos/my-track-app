@@ -112,15 +112,12 @@ async function getAccounts() {
 async function loadServerData() {
   let accounts = await getAccounts();
   let categories = await getCategories();
-  let transactions = await getTransactions();
-
-  //console.log(transactions);
+  //let transactions = await getTransactions();
 
   buildNewTransactionAccounts(accounts);
-  buildAccountSummary(accounts, "$0.00");
+  buildAccountSummary(calculateAccountsBalance(accounts));
   buildFilterAccount(accounts);
   categoryOptions(categories);
-  balance(transactions);
 }
 
 function buildNewTransactionAccounts(accounts) {
@@ -162,11 +159,7 @@ function categoryOptions(allCategories) {
   });
 }
 
-function balance(transactions) {
-  //WORKING on this
-}
-
-function buildAccountSummary(accounts, balance) {
+function buildAccountSummary(accounts) {
   $("#account_summary_table tbody").empty();
 
   accounts.forEach((account) => {
@@ -175,7 +168,7 @@ function buildAccountSummary(accounts, balance) {
                       account.username.charAt(0).toUpperCase() +
                       account.username.slice(1)
                     }</td>
-                    <td>${balance}</td>
+                    <td>$${account.balance.toFixed(2)}</td>
                   </tr>`);
 
     $("#account_summary_table tbody").append(tableRow);
@@ -296,6 +289,33 @@ async function getTransactions() {
       .fail(function (error) {
         reject(error);
       });
+  });
+}
+
+function calculateAccountsBalance(accounts) {
+  return accounts.map((account) => {
+    account.balance = account.transactions.reduce((balance, transaction) => {
+      if (transaction.type == "Deposit") {
+        return balance + transaction.amount;
+      }
+
+      if (transaction.type == "Withdraw") {
+        return balance - transaction.amount;
+      }
+
+      if (transaction.type == "Transfer") {
+        if (transaction.accountId == transaction.accountIdFrom) {
+          return balance - transaction.amount;
+        }
+        if (transaction.accountId == transaction.accountIdTo) {
+          return balance + transaction.amount;
+        }
+      }
+
+      return balance;
+    }, 0);
+
+    return account;
   });
 }
 
