@@ -206,7 +206,7 @@ function createNewTransaction(){
 $(".radio-transaction").on("change", function(){
   if($("#deposit").is(":checked") || $("#withdraw").is(":checked")){
 
-  }else{
+  }else if($("#transfer").is(":checked")){
 
   }
 });
@@ -258,17 +258,30 @@ async function createNewTransfer(type, transferFrom, transferTo){
   };
 
   fetch("http://localhost:3000/transactions", requestOptions)
-    .then((response) => {
-      $("#description").val("").html("");
-      $("#amount").val("").html("");
-      $('#select_account option[value=null]').prop('selected', true);
-      $('#select_category option[value=null]').prop('selected', true);
+    .then((response) => {      
 
       appendAlertMessage(
         "#alertMessageTransaction",
         "Transfer successfully completed!",
         "success"
       );
+
+      let tr = $("<tr>").append(
+        $("<th>").html(accountId),
+        $("<th>").html($("#select_account option:selected").html()),
+        $("<th>").html(type),
+        $("<th>").html($("#select_category option:selected").html()),
+        $("<th>").html(descriptionText),
+        $("<th>").html(amountQuantity),
+      );
+
+      $("#table_body").append(tr);
+
+      $("#description").val("").html("");
+      $("#amount").val("").html("");
+      $('#select_account option[value=null]').prop('selected', true);
+      $('#select_category option[value=null]').prop('selected', true);
+      
     })
     .catch((error) => console.error(error));
 
