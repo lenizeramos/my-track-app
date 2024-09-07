@@ -174,38 +174,49 @@ function validateTransferData(){
 }
 
 async function createNewTransfer(type, transferFrom, transferTo){
-  var transactionType = $("#select_account").val();
+  var accountId = $("#select_account").val();
   var categoryType = $("#select_category").val();
   var descriptionText = $("#description").val();
   var amountQuantity = $("#amount").val();
   
   var newTransaction = {
-      "accountId":transactionType,
+      "accountId":parseInt(accountId),
       "accountIdFrom":transferFrom,
       "accountIdTo":transferTo,
       "type":type,
-      "amount":amountQuantity,
-      "categoryId":categoryType,
+      "amount":parseInt(amountQuantity),
+      "categoryId":parseInt(categoryType),
       "description":descriptionText
-
   };
 
-  let settings = {
-    url: "http://localhost:3000/transactions",
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+  const urlencoded = new URLSearchParams();
+  urlencoded.append("newTransaction", JSON.stringify(newTransaction));
+
+  const requestOptions = {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: JSON.stringify(newTransaction)
+    headers: myHeaders,
+    body: urlencoded,
+    redirect: "follow"
   };
 
-  $.ajax(settings)
-    .done(function (response) {
-      console.log(response);
+  fetch("http://localhost:3000/transactions", requestOptions)
+    .then((response) => {
+      $("#description").val("").html("");
+      $("#amount").val("").html("");
+      $('#select_account option[value=null]').prop('selected', true);
+      $('#select_category option[value=null]').prop('selected', true);
+
+      appendAlertMessage(
+        "#alertMessageTransaction",
+        "Transfer successfully completed!",
+        "success"
+      );
     })
-    .fail(function (error) {
-      console.error("Error:", error);
-    });
+    .catch((error) => console.error(error));
+
 }
 
 function buildFilterAccount(accounts) {
