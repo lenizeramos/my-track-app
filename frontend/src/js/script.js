@@ -92,13 +92,15 @@ function createNewTransaction(){
 
     switch (radioOptionChecked) {
       case "deposit":
-          createNewDeposit();
+          createNewTransfer("Deposit", null, null);
         break;
       case "withdraw":
-          createNewWithdraw();
+          createNewTransfer("Withdraw", null, null);
         break;
       case "transfer":
-          createNewTransfer();
+        var transferFrom = $("#transfer_from").val();
+        var transferTo = $("#transfer_to").val();
+          createNewTransfer("Transfer", transferFrom, transferTo);
         break;
     
     }
@@ -110,7 +112,6 @@ function validateTransferData(){
   var categoryType = $("#select_category").val();
   var descriptionText = $("#description").val();
   var amountQuantity = $("#amount").val();
-
   if(
     transactionType == null ||
     categoryType == null ||
@@ -123,6 +124,37 @@ function validateTransferData(){
   }
 }
 
-async function createNewTransfer(){
+async function createNewTransfer(type, transferFrom, transferTo){
+  var transactionType = $("#select_account").val();
+  var categoryType = $("#select_category").val();
+  var descriptionText = $("#description").val();
+  var amountQuantity = $("#amount").val();
   
+  var newTransaction = {
+      "accountId":transactionType,
+      "accountIdFrom":transferFrom,
+      "accountIdTo":transferTo,
+      "type":type,
+      "amount":amountQuantity,
+      "categoryId":categoryType,
+      "description":descriptionText
+
+  };
+
+  let settings = {
+    url: "http://localhost:3000/transactions",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify(newTransaction)
+  };
+
+  $.ajax(settings)
+    .done(function (response) {
+      console.log(response);
+    })
+    .fail(function (error) {
+      console.error("Error:", error);
+    });
 }
