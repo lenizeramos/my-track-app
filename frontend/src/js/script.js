@@ -162,16 +162,44 @@ function categoryOptions(allCategories) {
 function buildAccountSummary(accounts) {
   $("#account_summary_table tbody").empty();
 
+  let xValues = [];
+  let yValues = [];
+  let barColors = [];
+
   accounts.forEach((account) => {
+    let name =
+      account.username.charAt(0).toUpperCase() + account.username.slice(1);
+    let balance = account.balance.toFixed(2);
+
     let tableRow = $(`<tr>
-                    <td>${
-                      account.username.charAt(0).toUpperCase() +
-                      account.username.slice(1)
-                    }</td>
-                    <td>$${account.balance.toFixed(2)}</td>
+                    <td>${name}</td>
+                    <td>$${balance}</td>
                   </tr>`);
 
     $("#account_summary_table tbody").append(tableRow);
+    xValues.push(name);
+    yValues.push(balance);
+    barColors.push("#FFB780");
+  });
+
+  new Chart("myChart", {
+    type: "bar",
+    data: {
+      labels: xValues,
+      datasets: [
+        {
+          backgroundColor: barColors,
+          data: yValues,
+        },
+      ],
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: "",
+      },
+    },
   });
 }
 

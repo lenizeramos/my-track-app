@@ -42,7 +42,7 @@ This design is just a reference, it doesn't mean that your project should looks 
 
 All the requests should have the domain of `http://localhost:3000`.
 
-- GET `/accounts`: get all the accountsnp
+- GET `/accounts`: get all the accounts
 - POST `/accounts`: saves a new account
 
   expects:
