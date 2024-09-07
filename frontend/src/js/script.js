@@ -2,13 +2,14 @@ $(() => {
   createNewAccount();
   loadAccounts();
   createNewCategory()
+  loadCategory();
 });
 
 function createNewAccount() {
   $("#add_new_account").on("click", function () {
     let accountName = $("#new_account").val().trim().toLowerCase();
     let account = { newAccount: accountName };
-
+    
     let settings = {
       url: "http://localhost:3000/accounts",
       method: "POST",
@@ -18,16 +19,16 @@ function createNewAccount() {
       },
       data: account,
     };
-
+    
     $.ajax(settings)
-      .done(function (response) {
-        console.log(settings);
-        $("#new_account").val("");
-        loadAccounts();
-      })
-      .fail(function (error) {
-        console.error("Error:", error);
-      });
+    .done(function (response) {
+      console.log(settings);
+      $("#new_account").val("");
+      loadAccounts();
+    })
+    .fail(function (error) {
+      console.error("Error:", error);
+    });
   });
 }
 
@@ -35,8 +36,6 @@ function createNewCategory() {
   $("#create-category-button").on("click", function () {
     let accountCategory = $("#new_category").val().trim().toLowerCase();
     let allCategories = { newCategory: accountCategory };
-    console.log(allCategories);
-
     let settings = {
       url: "http://localhost:3000/categories",
       method: "POST",
@@ -46,16 +45,11 @@ function createNewCategory() {
       },
       data: allCategories,
     };
-
-    $.ajax(settings)
-      .done(function (response) {
-        console.log(response);
-        $("#new_category").val("");
-        loadAccounts();
-      })
-      .fail(function (error) {
-        console.error("Error:", error);
-      });
+    
+    $.ajax(settings).done(function () {
+      $("#new_category").val("");
+      loadCategory();
+    })
   });
 }
 
@@ -78,17 +72,40 @@ function loadAccounts() {
 
 function buildHTMLOptionsAccount(accounts) {
   let chooseOption = $("#select_account").find("option").first();
-
+  
   $("#select_account").empty().append(chooseOption);
-
+  
   accounts.forEach((account) => {
     let option = $("<option>", {
       value: account.id,
     }).html(
       account.username.charAt(0).toUpperCase() + account.username.slice(1)
     );
-
+    
     $("#select_account").append(option);
+  });
+}
+
+function loadCategory() {
+  let settings = {
+    url: "http://localhost:3000/categories",
+    method: "GET",
+    timeout: 0,
+  };
+  $.ajax(settings).done(function (allCategories) {
+    categoryOptions(allCategories);
+  })
+}
+
+function categoryOptions(allCategories) {
+  let chooseCategory = $("#select_category").find("option").first();
+  $("#select_category").empty().append(chooseCategory);
+  allCategories.forEach((e) => {
+    let diferentOption = $("<option>", {
+      value: e.id,
+    }).html(e.name.charAt(0).toUpperCase() + e.name.slice(1)
+  );
+  $("#select_category").append(diferentOption);
   });
 }
 
@@ -107,3 +124,4 @@ function addAcountSummary(accounts, balance) {
     $("#account_summary_table tbody").append(tableRow);
   });
 }
+
