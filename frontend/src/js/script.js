@@ -2,32 +2,28 @@ $(() => {
   $("#add_new_account").on("click", function () {
     createNewAccount();
   });
-  loadAccounts();
+  loadServerData();
 
-  $("#transactions_button").on("click", function(){
+  $("#transactions_button").on("click", function () {
     createNewTransaction();
-    
   });
 
-  $("#create-category-button").on("click", function () {
+  $("#create_category_button").on("click", function () {
     let accountCategory = $("#new_category").val().trim().toLowerCase();
-    let allCategories = { newCategory: accountCategory };
     let settings = {
       url: "http://localhost:3000/categories",
       method: "POST",
-      timeout: 0,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-      data: allCategories,
+      data: { newCategory: accountCategory },
     };
-    
+
     $.ajax(settings).done(function () {
       $("#new_category").val("");
-      loadCategory();
-    })
-  } )
-  loadCategory();
+      loadServerData();
+    });
+  });
 });
 
 function appendAlertMessage(id, message, type) {
@@ -55,11 +51,11 @@ async function createNewAccount() {
 
   if (accountName === "") {
     appendAlertMessage(
-      "#alertMessageAccount",
+      "#alert_message_account",
       "Write the account name!",
       "warning"
     );
-    return
+    return;
   }
 
   if (await isNewAccount(accountName)) {
@@ -74,9 +70,9 @@ async function createNewAccount() {
     $.ajax(settings)
       .done(function () {
         $("#new_account").val("");
-        loadAccounts();
+        loadServerData();
         appendAlertMessage(
-          "#alertMessageAccount",
+          "#alert_message_account",
           "Account created successfully!",
           "success"
         );
@@ -86,11 +82,10 @@ async function createNewAccount() {
       });
   } else {
     appendAlertMessage(
-      "#alertMessageAccount",
+      "#alert_message_account",
       "Account already exists!",
       "danger"
     );
-    console.log();
   }
 }
 
@@ -114,11 +109,18 @@ async function getAccounts() {
   });
 }
 
-async function loadAccounts() {
+async function loadServerData() {
   let accounts = await getAccounts();
+  let categories = await getCategories();
+  let transactions = await getTransactions();
+
+  //console.log(transactions);
+
   buildNewTransactionAccounts(accounts);
   buildAccountSummary(accounts, "$0.00");
   buildFilterAccount(accounts);
+  categoryOptions(categories);
+  balance(transactions);
 }
 
 function buildNewTransactionAccounts(accounts) {
@@ -137,15 +139,16 @@ function buildNewTransactionAccounts(accounts) {
   });
 }
 
-function loadCategory() {
-  let settings = {
-    url: "http://localhost:3000/categories",
-    method: "GET",
-    timeout: 0,
-  };
-  $.ajax(settings).done(function (allCategories) {
-    categoryOptions(allCategories);
-  })
+async function getCategories() {
+  return new Promise((resolve, reject) => {
+    $.ajax("http://localhost:3000/categories")
+      .done(function (categories) {
+        resolve(categories);
+      })
+      .fail(function (error) {
+        reject(error);
+      });
+  });
 }
 
 function categoryOptions(allCategories) {
@@ -154,10 +157,13 @@ function categoryOptions(allCategories) {
   allCategories.forEach((e) => {
     let diferentOption = $("<option>", {
       value: e.id,
-    }).html(e.name.charAt(0).toUpperCase() + e.name.slice(1)
-  );
-  $("#select_category").append(diferentOption);
+    }).html(e.name.charAt(0).toUpperCase() + e.name.slice(1));
+    $("#select_category").append(diferentOption);
   });
+}
+
+function balance(transactions) {
+  //WORKING on this
 }
 
 function buildAccountSummary(accounts, balance) {
@@ -176,72 +182,69 @@ function buildAccountSummary(accounts, balance) {
   });
 }
 
-function createNewTransaction(){
-  if(!validateTransferData()) {
+function createNewTransaction() {
+  if (!validateTransferData()) {
     appendAlertMessage(
-      "#alertMessageTransaction",
-      "First you must fill in all the fields",
+      "#alert_message_transaction",
+      "You must fill in all the fields",
       "danger"
     );
-  }else{
+  } else {
     var radioOptionChecked = $("input[name='transaction']:checked").val();
 
     switch (radioOptionChecked) {
       case "deposit":
-          createNewTransfer("Deposit", null, null);
+        createNewTransfer("Deposit", null, null);
         break;
       case "withdraw":
-          createNewTransfer("Withdraw", null, null);
+        createNewTransfer("Withdraw", null, null);
         break;
       case "transfer":
         var transferFrom = $("#transfer_from").val();
         var transferTo = $("#transfer_to").val();
-          createNewTransfer("Transfer", transferFrom, transferTo);
+        createNewTransfer("Transfer", transferFrom, transferTo);
         break;
-    
     }
   }
 }
 
-$(".radio-transaction").on("change", function(){
-  if($("#deposit").is(":checked") || $("#withdraw").is(":checked")){
-
-  }else if($("#transfer").is(":checked")){
-
+$(".radio-transaction").on("change", function () {
+  if ($("#deposit").is(":checked") || $("#withdraw").is(":checked")) {
+  } else if ($("#transfer").is(":checked")) {
   }
 });
 
-function validateTransferData(){
+function validateTransferData() {
   var transactionType = $("#select_account").val();
   var categoryType = $("#select_category").val();
   var descriptionText = $("#description").val();
   var amountQuantity = $("#amount").val();
-  if(
+  if (
     transactionType == null ||
     categoryType == null ||
     descriptionText == "" ||
     amountQuantity == ""
-  ){
+  ) {
     return false;
-  }else{
+  } else {
     return true;
   }
 }
 
-async function createNewTransfer(type, transferFrom, transferTo){
+async function createNewTransfer(type, transferFrom, transferTo) {
   var accountId = $("#select_account").val();
   var categoryType = $("#select_category").val();
   var descriptionText = $("#description").val();
   var amountQuantity = $("#amount").val();
-  
+
   var newTransaction = {
-      "accountId":parseInt(accountId),
-      "accountIdFrom":transferFrom,
-      "accountIdTo":transferTo,
-      "type":type,
-      "amount":parseInt(amountQuantity),
-      "categoryId":parseInt(categoryType),
-      "description":descriptionText
+    accountId: parseInt(accountId),
+    accountIdFrom: transferFrom,
+    accountIdTo: transferTo,
+    type: type,
+    amount: parseInt(amountQuantity),
+    categoryId: parseInt(categoryType),
+    description: descriptionText,
   };
 
   const myHeaders = new Headers();
@@ -254,37 +257,46 @@ async function createNewTransfer(type, transferFrom, transferTo){
     method: "POST",
     headers: myHeaders,
     body: urlencoded,
-    redirect: "follow"
+    redirect: "follow",
   };
 
   fetch("http://localhost:3000/transactions", requestOptions)
-    .then((response) => {      
-
+    .then((response) => {
       appendAlertMessage(
-        "#alertMessageTransaction",
-        "Transfer successfully completed!",
+        "#alert_message_transaction",
+        "Transaction successfully completed!",
         "success"
       );
 
       let tr = $("<tr>").append(
-        $("<th>").html(accountId),
-        $("<th>").html($("#select_account option:selected").html()),
-        $("<th>").html(type),
-        $("<th>").html($("#select_category option:selected").html()),
-        $("<th>").html(descriptionText),
-        $("<th>").html(amountQuantity),
+        $("<td>").html(accountId),
+        $("<td>").html($("#select_account option:selected").html()),
+        $("<td>").html(type),
+        $("<td>").html($("#select_category option:selected").html()),
+        $("<td>").html(descriptionText),
+        $("<td>").html(amountQuantity)
       );
 
       $("#table_body").append(tr);
 
       $("#description").val("").html("");
       $("#amount").val("").html("");
-      $('#select_account option[value=null]').prop('selected', true);
-      $('#select_category option[value=null]').prop('selected', true);
-      
+      $("#select_account option[value=null]").prop("selected", true);
+      $("#select_category option[value=null]").prop("selected", true);
     })
     .catch((error) => console.error(error));
+}
 
+async function getTransactions() {
+  return new Promise((resolve, reject) => {
+    $.ajax("http://localhost:3000/transactions")
+      .done(function (transactions) {
+        resolve(transactions);
+      })
+      .fail(function (error) {
+        reject(error);
+      });
+  });
 }
 
 function buildFilterAccount(accounts) {
