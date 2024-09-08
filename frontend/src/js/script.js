@@ -167,22 +167,22 @@ function buildAccountSummary(accounts) {
   let barColors = [];
 
   accounts.forEach((account) => {
-    let name =
+    let accountName =
       account.username.charAt(0).toUpperCase() + account.username.slice(1);
-    let balance = account.balance.toFixed(2);
+    let accountBalance = account.balance.toFixed(2);
 
     let tableRow = $(`<tr>
-                    <td>${name}</td>
-                    <td>$${balance}</td>
+                    <td>${accountName}</td>
+                    <td>$${accountBalance}</td>
                   </tr>`);
 
     $("#account_summary_table tbody").append(tableRow);
-    xValues.push(name);
-    yValues.push(balance);
+    xValues.push(accountName);
+    yValues.push(accountBalance);
     barColors.push("#FFB780");
   });
 
-  new Chart("myChart", {
+  new Chart("my_chart", {
     type: "bar",
     data: {
       labels: xValues,
@@ -211,6 +211,7 @@ function createNewTransaction() {
       "danger"
     );
   } else {
+    loadServerData()
     var radioOptionChecked = $("input[name='transaction']:checked").val();
 
     switch (radioOptionChecked) {
