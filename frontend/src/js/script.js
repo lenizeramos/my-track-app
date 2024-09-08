@@ -162,16 +162,44 @@ function categoryOptions(allCategories) {
 function buildAccountSummary(accounts) {
   $("#account_summary_table tbody").empty();
 
+  let xValues = [];
+  let yValues = [];
+  let barColors = [];
+
   accounts.forEach((account) => {
+    let accountName =
+      account.username.charAt(0).toUpperCase() + account.username.slice(1);
+    let accountBalance = account.balance.toFixed(2);
+
     let tableRow = $(`<tr>
-                    <td>${
-                      account.username.charAt(0).toUpperCase() +
-                      account.username.slice(1)
-                    }</td>
-                    <td>$${account.balance.toFixed(2)}</td>
+                    <td>${accountName}</td>
+                    <td>$${accountBalance}</td>
                   </tr>`);
 
     $("#account_summary_table tbody").append(tableRow);
+    xValues.push(accountName);
+    yValues.push(accountBalance);
+    barColors.push("#FFB780");
+  });
+
+  new Chart("my_chart", {
+    type: "bar",
+    data: {
+      labels: xValues,
+      datasets: [
+        {
+          backgroundColor: barColors,
+          data: yValues,
+        },
+      ],
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: "",
+      },
+    },
   });
 }
 
@@ -183,6 +211,7 @@ function createNewTransaction() {
       "danger"
     );
   } else {
+    loadServerData()
     var radioOptionChecked = $("input[name='transaction']:checked").val();
 
     switch (radioOptionChecked) {
