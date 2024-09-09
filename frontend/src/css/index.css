@@ -12,7 +12,7 @@ body {
 }
 
 nav {
-  background-color: green;
+  background-color: #307487;
   color: #fff;
   padding: 1rem;
   text-align: center;
@@ -55,12 +55,12 @@ main #create_account .btn {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
-  background-color: green;
+  background-color: #307487;
   color: #fff;
   cursor: pointer;
 }
 main #create_account .btn:hover {
-  background-color: rgb(0, 107, 0);
+  background-color: #31535d;
 }
 main #create_category {
   background: #fff;
@@ -87,12 +87,12 @@ main #create_category .btn {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
-  background-color: green;
+  background-color: #307487;
   color: #fff;
   cursor: pointer;
 }
 main #create_category .btn:hover {
-  background-color: rgb(0, 107, 0);
+  background-color: #31535d;
 }
 main #new_transaction {
   background: #fff;
@@ -114,6 +114,7 @@ main #new_transaction #radio_group {
 }
 main #new_transaction #radio_group div {
   margin-right: 0.5rem;
+  accent-color: #307487;
 }
 main #new_transaction label {
   margin-bottom: 0.5rem;
@@ -132,12 +133,12 @@ main #new_transaction .btn {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
-  background-color: green;
+  background-color: #307487;
   color: #fff;
   cursor: pointer;
 }
 main #new_transaction .btn:hover {
-  background-color: rgb(0, 107, 0);
+  background-color: #31535d;
 }
 main #account_summary {
   background: #fff;

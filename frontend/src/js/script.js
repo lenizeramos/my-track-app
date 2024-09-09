@@ -10,6 +10,14 @@ $(() => {
     createNewTransaction();
   });
 
+  $("#select_account").on("change", async function () {
+    buildAccountSelect(await getAccounts(), "#transfer_to", $(this).val());
+  });
+
+  $("#transfer_to").on("change", async function () {
+    buildAccountSelect(await getAccounts(), "#select_account", $(this).val());
+  });
+
   $("#create_category_button").on("click", function () {
     let accountCategory = $("#new_category").val().trim().toLowerCase();
     let settings = {
@@ -168,20 +176,35 @@ function fillTransactionsTable(transactions) {
 }
 
 function buildNewTransactionAccounts(accounts) {
-  let chooseOption = $("#select_account").find("option").first();
+  buildAccountSelect(accounts, "#select_account");
+  buildAccountSelect(accounts, "#transfer_to");
+}
 
-  $("#select_account").empty().append(chooseOption.clone());
-  $("#transfer_to").empty().append(chooseOption);
-  console.log($("#select_account"));
+function buildAccountSelect(accounts, selectID, idToBeSkipped) {
+  let chooseOption = $(selectID).find("option").first();
+  let selected = $(selectID).val();
+  $(selectID).empty().append(chooseOption);
+
   accounts.forEach((account) => {
-    let option = $("<option>", {
-      value: account.id,
-    }).html(
-      account.username.charAt(0).toUpperCase() + account.username.slice(1)
-    );
+    if (account.id != idToBeSkipped) {
+      let option;
+      if (account.id == selected) {
+        option = $("<option>", {
+          value: account.id,
+          selected: true,
+        }).html(
+          account.username.charAt(0).toUpperCase() + account.username.slice(1)
+        );
+      } else {
+        option = $("<option>", {
+          value: account.id,
+        }).html(
+          account.username.charAt(0).toUpperCase() + account.username.slice(1)
+        );
+      }
 
-    $("#select_account").append(option.clone());
-    $("#transfer_to").append(option.clone());
+      $(selectID).append(option);
+    }
   });
 }
 
@@ -258,10 +281,9 @@ function createNewTransaction() {
     appendAlertMessage(
       "#alert_message_transaction",
       "You must fill in all the fields",
-      "danger"
+      "warning"
     );
   } else {
-    loadServerData();
     var radioOptionChecked = $("input[name='transaction']:checked").val();
 
     switch (radioOptionChecked) {
@@ -277,6 +299,7 @@ function createNewTransaction() {
         createNewTransfer("Transfer", transferFrom, transferTo);
         break;
     }
+    loadServerData();
   }
 }
 
@@ -340,7 +363,6 @@ async function createNewTransfer(type, transferFrom, transferTo) {
 
   fetch("http://localhost:3000/transactions", requestOptions)
     .then((response) => {
-      console.log("transfer");
       appendAlertMessage(
         "#alert_message_transaction",
         "Transaction successfully completed!",
@@ -396,17 +418,5 @@ function calculateAccountsBalance(accounts) {
 }
 
 function buildFilterAccount(accounts) {
-  let allOption = $("#filter_account").find("option").first();
-
-  $("#filter_account").empty().append(allOption);
-
-  accounts.forEach((account) => {
-    let option = $("<option>", {
-      value: account.id,
-    }).html(
-      account.username.charAt(0).toUpperCase() + account.username.slice(1)
-    );
-
-    $("#filter_account").append(option);
-  });
+  buildAccountSelect(accounts, "#filter_account");
 }
