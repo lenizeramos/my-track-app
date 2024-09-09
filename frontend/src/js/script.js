@@ -10,23 +10,9 @@ $(() => {
   });
 
   $("#create-category-button").on("click", function () {
-    let accountCategory = $("#new_category").val().trim().toLowerCase();
-    let allCategories = { newCategory: accountCategory };
-    let settings = {
-      url: "http://localhost:3000/categories",
-      method: "POST",
-      timeout: 0,
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      data: allCategories,
-    };
-    
-    $.ajax(settings).done(function () {
-      $("#new_category").val("");
-      loadCategory();
-    })
-  } )
+    createNewCategory();
+  })
+  
   loadCategory();
 });
 
@@ -92,6 +78,68 @@ async function createNewAccount() {
     );
     console.log();
   }
+}
+
+async function createNewCategory() {
+  let newCategory = $("#new_category").val().trim().toLowerCase();
+
+  if (newCategory === "") {
+    appendAlertMessage(
+      "#alertMessageCategory",
+      "Write the new category!",
+      "warning"
+    );
+    return
+  }
+
+  if (await isNewCategory(newCategory)) {
+    let settings = {
+      url: "http://localhost:3000/categories",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      data: { newCategoryname: newCategory },
+    };
+    $.ajax(settings)
+      .done(function () {
+        $("#new_category").val("");
+        appendAlertMessage(
+          "#alertMessageCategory",
+          "New category created successfully!",
+          "success"
+        );
+      })
+      .fail(function (error) {
+        console.error("Error:", error);
+      });
+  } else {
+    appendAlertMessage(
+      "#alertMessageAccount",
+      "Category already exists!",
+      "danger"
+    );
+  }
+}
+
+async function isNewCategory(newCategoryName) {
+  let categoryAccounts = await getCategories();
+
+  return !categoryAccounts.some(
+    (categoryAccount) => categoryAccount.name.toLowerCase() == newCategoryName.toLowerCase()
+  );
+}
+
+async function getCategories() {
+  return new Promise((resolve, reject) => {
+    $.ajax("http://localhost:3000/categories")
+      .done(function (allCategories) {
+        resolve(allCategories);
+      })
+      .fail(function (error) {
+        reject(error);
+      });
+  });
 }
 
 async function isNewAccount(newAccountName) {
