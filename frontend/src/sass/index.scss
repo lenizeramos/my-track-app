@@ -1,5 +1,5 @@
-$primaryColor: green;
-$hoverColor: rgb(0, 107, 0);
+$primaryColor: #307487;
+$hoverColor: #31535d;
 $backgroundColor: #f4f4f4;
 $white: #fff;
 $borderColor: #ddd;
@@ -137,6 +137,7 @@ main {
 
       div {
         margin-right: 0.5rem;
+        accent-color: $primaryColor;
       }
     }
 
