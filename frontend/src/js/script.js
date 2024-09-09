@@ -1,5 +1,5 @@
-var accountsGlobal;
-var categoriesGlobal;
+//var accountsGlobal;
+//var categoriesGlobal;
 $(() => {
   $("#add_new_account").on("click", function () {
     createNewAccount();
@@ -30,6 +30,12 @@ $(() => {
   });
 
   loadServerData();
+
+
+  $("#filter_account").on("change", async function () {
+    console.log("OOOOOO")
+  });
+
 });
 
 function appendAlertMessage(id, message, type) {
@@ -107,7 +113,7 @@ async function getAccounts() {
   return new Promise((resolve, reject) => {
     $.ajax("http://localhost:3000/accounts")
       .done(function (accounts) {
-        accountsGlobal = accounts;
+        //accountsGlobal = accounts;
         resolve(accounts);
       })
       .fail(function (error) {
@@ -171,7 +177,7 @@ async function getCategories() {
   return new Promise((resolve, reject) => {
     $.ajax("http://localhost:3000/categories")
       .done(function (categories) {
-        categoriesGlobal = categories;
+        //categoriesGlobal = categories;
         resolve(categories);
       })
       .fail(function (error) {
@@ -194,10 +200,12 @@ function categoryOptions(allCategories) {
 async function loadServerData() {
   let accounts = await getAccounts();
   let categories = await getCategories();
-  let transactions = await getTransactions();
+  let transactions = buildTransactionsWithUsernameAndCategory(
+    accounts,
+    categories
+  );
 
-  console.log(categories);
-  fillTransactionsTable(transactions);
+  fillTransactionsTable2(transactions);
   buildNewTransactionAccounts(accounts);
   buildAccountSummary(calculateAccountsBalance(accounts));
   buildFilterAccount(accounts);
@@ -205,7 +213,54 @@ async function loadServerData() {
   buildFilterCategories(categories);
 }
 
-function fillTransactionsTable(transactions) {
+function buildTransactionsWithUsernameAndCategory(accounts, categories) {
+  transactions = [];
+
+  accounts.forEach((account) => {
+    account.transactions.forEach((transaction) => {
+      transaction.username = account.username;
+      transaction.category = categories.find(
+        (category) => category.id == transaction.categoryId
+      ).name;
+      if (transaction.accountIdFrom) {
+        transaction.accountFrom = accounts.find(
+          (acc) => acc.id == transaction.accountIdFrom
+        ).username;
+      }
+
+      if (transaction.accountIdTo) {
+        transaction.accountTo = accounts.find(
+          (acc) => acc.id == transaction.accountIdTo
+        ).username;
+      }
+      transactions.push(transaction);
+    });
+  });
+
+  return transactions;
+}
+
+function fillTransactionsTable2(transactions) {
+  $("#table_body").empty();
+
+  transactions.forEach((transaction) => {
+    let tr = $("<tr>").append(
+      $("<td>").text(transaction.id),
+      $("<td>").text(transaction.username),
+      $("<td>").text(transaction.type),
+      $("<td>").text(transaction.category),
+      $("<td>").text(transaction.description),
+      $("<td>").text(transaction.amount),
+      $("<td>").text(transaction.accountFrom),
+      $("<td>").text(transaction.accountTo)
+    );
+
+    $("#table_body").append(tr);
+  });
+}
+
+/* function fillTransactionsTable(transactions) {
+
   if (accountsGlobal.length > 0) {
     $("#table_body").empty();
 
@@ -246,7 +301,7 @@ function fillTransactionsTable(transactions) {
       }
     });
   }
-}
+} */
 
 function buildNewTransactionAccounts(accounts) {
   buildAccountSelect(accounts, "#select_account");
@@ -254,13 +309,13 @@ function buildNewTransactionAccounts(accounts) {
   buildAccountSelect(accounts, "#transfer_to");
 }
 
-function buildAccountSelect(accounts, selectID, idToBeSkipped) {
+function buildAccountSelect(accounts, selectID, idAccountToBeSkipped) {
   let chooseOption = $(selectID).find("option").first();
   let selected = $(selectID).val();
   $(selectID).empty().append(chooseOption);
 
   accounts.forEach((account) => {
-    if (account.id != idToBeSkipped) {
+    if (account.id != idAccountToBeSkipped) {
       let option;
       if (account.id == selected) {
         option = $("<option>", {
