@@ -1,3 +1,5 @@
+var accountsGlobal;
+var categoriesGlobal;
 $(() => {
   $("#add_new_account").on("click", function () {
     createNewAccount();
@@ -101,6 +103,7 @@ async function getAccounts() {
   return new Promise((resolve, reject) => {
     $.ajax("http://localhost:3000/accounts")
       .done(function (accounts) {
+        accountsGlobal = accounts;
         resolve(accounts);
       })
       .fail(function (error) {
@@ -112,27 +115,81 @@ async function getAccounts() {
 async function loadServerData() {
   let accounts = await getAccounts();
   let categories = await getCategories();
-  //let transactions = await getTransactions();
+  let transactions = await getTransactions();
 
+  fillTransactionsTable(transactions);
   buildNewTransactionAccounts(accounts);
   buildAccountSummary(calculateAccountsBalance(accounts));
   buildFilterAccount(accounts);
   categoryOptions(categories);
 }
 
+function fillTransactionsTable(transactions) {
+  if (accountsGlobal.length > 0) {
+    $("#table_body").empty();
+
+    accountsGlobal.forEach(account => {
+      if (account.transactions.length > 0) {
+        account.transactions.forEach(transaction => {
+          let transCategory = "";
+          categoriesGlobal.forEach(category => {
+            if (category.id == transaction.categoryId) {
+              transCategory = category.name;
+            }
+          });
+
+          let transferToAcc = "";
+          let transferFromAcc = account.username;
+          accountsGlobal.forEach(acc => {
+            if(acc.id == transaction.accountIdFrom) {
+              transferFromAcc = acc.username;
+            }
+            if (acc.id == transaction.accountIdTo) {
+              transferToAcc = acc.username;
+            }
+          });          
+
+          let tr = $("<tr>").append(
+            $("<td>").text(account.id),
+            $("<td>").text(account.username),
+            $("<td>").text(transaction.type),
+            $("<td>").text(transCategory),
+            $("<td>").text(transaction.description),
+            $("<td>").text(transaction.amount),
+            $("<td>").text(transferFromAcc),
+            $("<td>").text(transferToAcc)
+          );
+
+          $("#table_body").append(tr);
+        });
+      }
+    });
+  }
+}
+
+
 function buildNewTransactionAccounts(accounts) {
   let chooseOption = $("#select_account").find("option").first();
 
   $("#select_account").empty().append(chooseOption);
+  $("#transfer_to").empty().append(chooseOption);
 
   accounts.forEach((account) => {
-    let option = $("<option>", {
+    let option1 = $("<option>", {
       value: account.id,
     }).html(
       account.username.charAt(0).toUpperCase() + account.username.slice(1)
     );
 
-    $("#select_account").append(option);
+    let option2 = $("<option>", {
+      value: account.id,
+    }).html(
+      account.username.charAt(0).toUpperCase() + account.username.slice(1)
+    );
+
+    $("#select_account").append(option1);
+    $("#transfer_to").append(option2);
+    
   });
 }
 
@@ -140,6 +197,7 @@ async function getCategories() {
   return new Promise((resolve, reject) => {
     $.ajax("http://localhost:3000/categories")
       .done(function (categories) {
+        categoriesGlobal = categories;
         resolve(categories);
       })
       .fail(function (error) {
@@ -222,7 +280,7 @@ function createNewTransaction() {
         createNewTransfer("Withdraw", null, null);
         break;
       case "transfer":
-        var transferFrom = $("#transfer_from").val();
+        var transferFrom = $("#select_account").val();
         var transferTo = $("#transfer_to").val();
         createNewTransfer("Transfer", transferFrom, transferTo);
         break;
@@ -232,15 +290,21 @@ function createNewTransaction() {
 
 $(".radio-transaction").on("change", function () {
   if ($("#deposit").is(":checked") || $("#withdraw").is(":checked")) {
+    $("#div_transfer_to").addClass("d-none");
   } else if ($("#transfer").is(":checked")) {
+    $("#div_transfer_to").removeClass("d-none");
   }
 });
 
 function validateTransferData() {
   var transactionType = $("#select_account").val();
+  var transferTo = $("#transfer_to").val();
   var categoryType = $("#select_category").val();
   var descriptionText = $("#description").val();
   var amountQuantity = $("#amount").val();
+  if($("#transfer").is(":checked")){
+    if(transferTo == null) return false;
+  }
   if (
     transactionType == null ||
     categoryType == null ||
@@ -261,8 +325,8 @@ async function createNewTransfer(type, transferFrom, transferTo) {
 
   var newTransaction = {
     accountId: parseInt(accountId),
-    accountIdFrom: transferFrom,
-    accountIdTo: transferTo,
+    accountIdFrom: parseInt(transferFrom),
+    accountIdTo: parseInt(transferTo),
     type: type,
     amount: parseInt(amountQuantity),
     categoryId: parseInt(categoryType),
@@ -284,26 +348,17 @@ async function createNewTransfer(type, transferFrom, transferTo) {
 
   fetch("http://localhost:3000/transactions", requestOptions)
     .then((response) => {
+      console.log("transfer");
       appendAlertMessage(
         "#alert_message_transaction",
         "Transaction successfully completed!",
         "success"
       );
 
-      let tr = $("<tr>").append(
-        $("<td>").html(accountId),
-        $("<td>").html($("#select_account option:selected").html()),
-        $("<td>").html(type),
-        $("<td>").html($("#select_category option:selected").html()),
-        $("<td>").html(descriptionText),
-        $("<td>").html(amountQuantity)
-      );
-
-      $("#table_body").append(tr);
-
       $("#description").val("").html("");
       $("#amount").val("").html("");
       $("#select_account option[value=null]").prop("selected", true);
+      $("#transfer_to option[value=null]").prop("selected", true);
       $("#select_category option[value=null]").prop("selected", true);
     })
     .catch((error) => console.error(error));

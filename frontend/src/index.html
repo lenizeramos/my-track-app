@@ -72,6 +72,7 @@
               name="transaction"
               value="deposit"
               checked
+              class="radio-transaction"
             />
             <label for="deposit">Deposit</label>
           </div>
@@ -81,6 +82,7 @@
               id="withdraw"
               name="transaction"
               value="withdraw"
+              class="radio-transaction"
             />
             <label for="withdraw">Withdraw</label>
           </div>
@@ -90,6 +92,7 @@
               id="transfer"
               name="transaction"
               value="transfer"
+              class="radio-transaction"
             />
             <label for="transfer">Transfer</label>
           </div>
@@ -98,6 +101,13 @@
         <div>
           <label for="select_account">Account:</label>
           <select name="" id="select_account">
+            <option value="null" disabled selected>Choose...</option>
+          </select>
+        </div>
+
+        <div class="d-none" id="div_transfer_to">
+          <label for="transfer_to">Transfer to:</label>
+          <select name="" id="transfer_to">
             <option value="null" disabled selected>Choose...</option>
           </select>
         </div>
