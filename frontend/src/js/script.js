@@ -31,12 +31,53 @@ $(() => {
 
   loadServerData();
 
+  /* $("#filter_account").on("change", async function () {
+    let accounts = await getAccounts();
+    let categories = await getCategories();
+    let transactions = buildTransactionsWithUsernameAndCategory(
+      accounts,
+      categories
+    );
+    
+    fillTransactionsTable2(transactions.filter((transaction)=> transaction.accountId == $(this).val()))
+  }); */
 
-  $("#filter_account").on("change", async function () {
-    console.log("OOOOOO")
-  });
-
+  $("#filter_account").on("change", filterTransactionsTable);
+  $("#filter_category").on("change", filterTransactionsTable);
+  $("#filter_transaction").on("change", filterTransactionsTable);
 });
+
+async function filterTransactionsTable() {
+  let accountsFilter = $("#filter_account").val();
+  let categoriesFilter = $("#filter_category").val();
+  let transactionsFilter = $("#filter_transaction").val();
+
+  let accounts = await getAccounts();
+  let categories = await getCategories();
+  let transactions = buildTransactionsWithUsernameAndCategory(
+    accounts,
+    categories
+  );
+  console.log(accountsFilter);
+  if (accountsFilter) {
+    transactions = transactions.filter(
+      (transaction) => transaction.accountId == accountsFilter
+    );
+  }
+
+  console.log(categoriesFilter);
+  if (categoriesFilter) {
+    transactions = transactions.filter(
+      (transaction) => transaction.categoryId == categoriesFilter
+    );
+  }
+  if (transactionsFilter) {
+    transactions = transactions.filter(
+      (transaction) => transaction.type == transactionsFilter
+    );
+  }
+  fillTransactionsTable2(transactions);
+}
 
 function appendAlertMessage(id, message, type) {
   const alertMessageId = $(id);

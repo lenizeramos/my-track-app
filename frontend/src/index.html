@@ -26,7 +26,6 @@
     ></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-
   </head>
   <body>
     <nav>
@@ -123,11 +122,21 @@
 
         <div>
           <label for="description">Description: </label>
-          <input type="text" id="description" placeholder="Enter description" autocomplete="off" />
+          <input
+            type="text"
+            id="description"
+            placeholder="Enter description"
+            autocomplete="off"
+          />
         </div>
         <div>
           <label for="amount">Amount: </label>
-          <input type="number" id="amount" placeholder="Enter amount" autocomplete="off"/>
+          <input
+            type="number"
+            id="amount"
+            placeholder="Enter amount"
+            autocomplete="off"
+          />
         </div>
 
         <button id="transactions_button" class="btn">Add transaction</button>
@@ -148,10 +157,9 @@
             </table>
           </div>
           <div>
-            <canvas id="my_chart" style="width:100%"></canvas>
+            <canvas id="my_chart" style="width: 100%"></canvas>
           </div>
         </div>
-
       </section>
 
       <section id="transaction_history">
@@ -160,18 +168,18 @@
         <div id="filter_container">
           <label for="filter_account">Accounts:</label>
           <select id="filter_account">
-            <option value="all">All</option>
+            <option value="">All</option>
           </select>
           <label for="filter_category">Categories:</label>
           <select id="filter_category">
-            <option value="all">All</option>
+            <option value="">All</option>
           </select>
           <label for="filter_transaction">Transactions:</label>
           <select id="filter_transaction">
-            <option value="all">All</option>
-            <option value="">Deposit</option>
-            <option value="">Withdraw</option>
-            <option value="">Transfer</option>
+            <option value="">All</option>
+            <option value="Deposit">Deposit</option>
+            <option value="Withdraw">Withdraw</option>
+            <option value="Transfer">Transfer</option>
           </select>
         </div>
 
