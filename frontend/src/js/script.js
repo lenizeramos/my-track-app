@@ -4,7 +4,10 @@ $(() => {
   $("#add_new_account").on("click", function () {
     createNewAccount();
   });
-  loadServerData();
+
+  $("#create_category_button").on("click", function () {
+    createNewCategory();
+  });
 
   $("#transactions_button").on("click", function () {
     createNewTransaction();
@@ -18,22 +21,15 @@ $(() => {
     buildAccountSelect(await getAccounts(), "#select_account", $(this).val());
   });
 
-  $("#create_category_button").on("click", function () {
-    let accountCategory = $("#new_category").val().trim().toLowerCase();
-    let settings = {
-      url: "http://localhost:3000/categories",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      data: { newCategory: accountCategory },
-    };
-
-    $.ajax(settings).done(function () {
-      $("#new_category").val("");
-      loadServerData();
-    });
+  $(".radio-transaction").on("change", function () {
+    if ($("#deposit").is(":checked") || $("#withdraw").is(":checked")) {
+      $("#div_transfer_to").addClass("d-none");
+    } else if ($("#transfer").is(":checked")) {
+      $("#div_transfer_to").removeClass("d-none");
+    }
   });
+
+  loadServerData();
 });
 
 function appendAlertMessage(id, message, type) {
@@ -120,16 +116,93 @@ async function getAccounts() {
   });
 }
 
+async function createNewCategory() {
+  let accountCategory = $("#new_category").val().trim().toLowerCase();
+
+  if (accountCategory === "") {
+    appendAlertMessage(
+      "#alert_message_category",
+      "Write the category name!",
+      "warning"
+    );
+    return;
+  }
+
+  if (await isNewCategory(accountCategory)) {
+    let settings = {
+      url: "http://localhost:3000/categories",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      data: { newCategory: accountCategory },
+    };
+    $.ajax(settings)
+      .done(function () {
+        $("#new_category").val("");
+        loadServerData();
+        appendAlertMessage(
+          "#alert_message_category",
+          "Category created successfully!",
+          "success"
+        );
+      })
+      .fail(function (error) {
+        console.error("Error:", error);
+      });
+  } else {
+    appendAlertMessage(
+      "#alert_message_category",
+      "Category already exists!",
+      "danger"
+    );
+  }
+}
+
+async function isNewCategory(newCategoryName) {
+  let categories = await getCategories();
+
+  return !categories.some(
+    (category) => category.name.toLowerCase() == newCategoryName.toLowerCase()
+  );
+}
+
+async function getCategories() {
+  return new Promise((resolve, reject) => {
+    $.ajax("http://localhost:3000/categories")
+      .done(function (categories) {
+        categoriesGlobal = categories;
+        resolve(categories);
+      })
+      .fail(function (error) {
+        reject(error);
+      });
+  });
+}
+
+function categoryOptions(allCategories) {
+  let chooseCategory = $("#select_category").find("option").first();
+  $("#select_category").empty().append(chooseCategory);
+  allCategories.forEach((e) => {
+    let diferentOption = $("<option>", {
+      value: e.id,
+    }).html(e.name.charAt(0).toUpperCase() + e.name.slice(1));
+    $("#select_category").append(diferentOption);
+  });
+}
+
 async function loadServerData() {
   let accounts = await getAccounts();
   let categories = await getCategories();
   let transactions = await getTransactions();
 
+  console.log(categories);
   fillTransactionsTable(transactions);
   buildNewTransactionAccounts(accounts);
   buildAccountSummary(calculateAccountsBalance(accounts));
   buildFilterAccount(accounts);
   categoryOptions(categories);
+  buildFilterCategories(categories);
 }
 
 function fillTransactionsTable(transactions) {
@@ -177,6 +250,7 @@ function fillTransactionsTable(transactions) {
 
 function buildNewTransactionAccounts(accounts) {
   buildAccountSelect(accounts, "#select_account");
+  buildAccountSelect(accounts, "#select_category");
   buildAccountSelect(accounts, "#transfer_to");
 }
 
@@ -208,27 +282,19 @@ function buildAccountSelect(accounts, selectID, idToBeSkipped) {
   });
 }
 
-async function getCategories() {
-  return new Promise((resolve, reject) => {
-    $.ajax("http://localhost:3000/categories")
-      .done(function (categories) {
-        categoriesGlobal = categories;
-        resolve(categories);
-      })
-      .fail(function (error) {
-        reject(error);
-      });
-  });
-}
+function buildCategorySelect(categories, selectID) {
+  let chooseOption = $(selectID).find("option").first();
 
-function categoryOptions(allCategories) {
-  let chooseCategory = $("#select_category").find("option").first();
-  $("#select_category").empty().append(chooseCategory);
-  allCategories.forEach((e) => {
-    let diferentOption = $("<option>", {
-      value: e.id,
-    }).html(e.name.charAt(0).toUpperCase() + e.name.slice(1));
-    $("#select_category").append(diferentOption);
+  $(selectID).empty().append(chooseOption);
+
+  categories.forEach((category) => {
+    let option;
+
+    option = $("<option>", {
+      value: category.id,
+    }).html(category.name.charAt(0).toUpperCase() + category.name.slice(1));
+
+    $(selectID).append(option);
   });
 }
 
@@ -252,7 +318,7 @@ function buildAccountSummary(accounts) {
     $("#account_summary_table tbody").append(tableRow);
     xValues.push(accountName);
     yValues.push(accountBalance);
-    barColors.push("#FFB780");
+    barColors.push("#99CEDC");
   });
 
   new Chart("my_chart", {
@@ -302,14 +368,6 @@ function createNewTransaction() {
     loadServerData();
   }
 }
-
-$(".radio-transaction").on("change", function () {
-  if ($("#deposit").is(":checked") || $("#withdraw").is(":checked")) {
-    $("#div_transfer_to").addClass("d-none");
-  } else if ($("#transfer").is(":checked")) {
-    $("#div_transfer_to").removeClass("d-none");
-  }
-});
 
 function validateTransferData() {
   var transactionType = $("#select_account").val();
@@ -419,4 +477,8 @@ function calculateAccountsBalance(accounts) {
 
 function buildFilterAccount(accounts) {
   buildAccountSelect(accounts, "#filter_account");
+}
+
+function buildFilterCategories(categories) {
+  buildCategorySelect(categories, "#filter_category");
 }
