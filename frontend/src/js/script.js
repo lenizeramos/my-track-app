@@ -128,11 +128,11 @@ function fillTransactionsTable(transactions) {
   if (accountsGlobal.length > 0) {
     $("#table_body").empty();
 
-    accountsGlobal.forEach(account => {
+    accountsGlobal.forEach((account) => {
       if (account.transactions.length > 0) {
-        account.transactions.forEach(transaction => {
+        account.transactions.forEach((transaction) => {
           let transCategory = "";
-          categoriesGlobal.forEach(category => {
+          categoriesGlobal.forEach((category) => {
             if (category.id == transaction.categoryId) {
               transCategory = category.name;
             }
@@ -140,14 +140,14 @@ function fillTransactionsTable(transactions) {
 
           let transferToAcc = "";
           let transferFromAcc = account.username;
-          accountsGlobal.forEach(acc => {
-            if(acc.id == transaction.accountIdFrom) {
+          accountsGlobal.forEach((acc) => {
+            if (acc.id == transaction.accountIdFrom) {
               transferFromAcc = acc.username;
             }
             if (acc.id == transaction.accountIdTo) {
               transferToAcc = acc.username;
             }
-          });          
+          });
 
           let tr = $("<tr>").append(
             $("<td>").text(account.id),
@@ -167,29 +167,21 @@ function fillTransactionsTable(transactions) {
   }
 }
 
-
 function buildNewTransactionAccounts(accounts) {
   let chooseOption = $("#select_account").find("option").first();
 
-  $("#select_account").empty().append(chooseOption);
+  $("#select_account").empty().append(chooseOption.clone());
   $("#transfer_to").empty().append(chooseOption);
-
+  console.log($("#select_account"));
   accounts.forEach((account) => {
-    let option1 = $("<option>", {
+    let option = $("<option>", {
       value: account.id,
     }).html(
       account.username.charAt(0).toUpperCase() + account.username.slice(1)
     );
 
-    let option2 = $("<option>", {
-      value: account.id,
-    }).html(
-      account.username.charAt(0).toUpperCase() + account.username.slice(1)
-    );
-
-    $("#select_account").append(option1);
-    $("#transfer_to").append(option2);
-    
+    $("#select_account").append(option.clone());
+    $("#transfer_to").append(option.clone());
   });
 }
 
@@ -269,7 +261,7 @@ function createNewTransaction() {
       "danger"
     );
   } else {
-    loadServerData()
+    loadServerData();
     var radioOptionChecked = $("input[name='transaction']:checked").val();
 
     switch (radioOptionChecked) {
@@ -302,8 +294,8 @@ function validateTransferData() {
   var categoryType = $("#select_category").val();
   var descriptionText = $("#description").val();
   var amountQuantity = $("#amount").val();
-  if($("#transfer").is(":checked")){
-    if(transferTo == null) return false;
+  if ($("#transfer").is(":checked")) {
+    if (transferTo == null) return false;
   }
   if (
     transactionType == null ||
