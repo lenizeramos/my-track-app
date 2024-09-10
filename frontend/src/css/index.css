@@ -1,0 +1,226 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  width: 100vw;
+  height: 100vh;
+}
+
+nav {
+  background-color: #307487;
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+}
+nav h1 {
+  font-size: 1.8rem;
+}
+
+.displayNone {
+  display: none;
+}
+
+main {
+  margin: 0 auto;
+  padding: 1rem;
+  width: 90%;
+}
+main #create_account {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+main #create_account h2 {
+  margin-bottom: 1rem;
+}
+main #create_account label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+main #create_account input[type=text] {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+main #create_account .btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #307487;
+  color: #fff;
+  cursor: pointer;
+}
+main #create_account .btn:hover {
+  background-color: #31535d;
+}
+main #create_category {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+main #create_category h2 {
+  margin-bottom: 1rem;
+}
+main #create_category label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+main #create_category input[type=text] {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+main #create_category .btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #307487;
+  color: #fff;
+  cursor: pointer;
+}
+main #create_category .btn:hover {
+  background-color: #31535d;
+}
+main #new_transaction {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+main #new_transaction h2 {
+  margin-bottom: 1rem;
+}
+main #new_transaction p {
+  margin-bottom: 0.5rem;
+}
+main #new_transaction #radio_group {
+  margin: 0.5rem 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+main #new_transaction #radio_group div {
+  margin-right: 0.5rem;
+  accent-color: #307487;
+}
+main #new_transaction label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+main #new_transaction input[type=text],
+main #new_transaction input[type=number],
+main #new_transaction select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+main #new_transaction .btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #307487;
+  color: #fff;
+  cursor: pointer;
+}
+main #new_transaction .btn:hover {
+  background-color: #31535d;
+}
+main #account_summary {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+main #account_summary h2 {
+  margin-bottom: 1rem;
+}
+main #account_summary table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+main #account_summary table th,
+main #account_summary table td {
+  padding: 0.7rem;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+main #account_summary table th {
+  background-color: #f4f4f4;
+}
+main #transaction_history {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+main #transaction_history h2 {
+  margin-bottom: 1rem;
+}
+main #transaction_history label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+main #transaction_history select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+main #transaction_history .table-container {
+  overflow-x: auto;
+}
+main #transaction_history .table-container #transaction_history_table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+main #transaction_history .table-container #transaction_history_table th,
+main #transaction_history .table-container #transaction_history_table td {
+  padding: 0.7rem;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+main #transaction_history .table-container #transaction_history_table th {
+  background-color: #f4f4f4;
+}
+
+@media (min-width: 601px) {
+  main {
+    width: 80%;
+  }
+}
+@media (min-width: 768px) {
+  main {
+    width: 70%;
+  }
+}
+@media (min-width: 992px) {
+  main {
+    width: 60%;
+  }
+}
+@media (min-width: 1200px) {
+  main {
+    width: 50%;
+  }
+}
+
+/*# sourceMappingURL=index.css.map */
