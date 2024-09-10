@@ -1,5 +1,3 @@
-//var accountsGlobal;
-//var categoriesGlobal;
 $(() => {
   $("#add_new_account").on("click", function () {
     createNewAccount();
@@ -31,20 +29,7 @@ $(() => {
 
   loadServerData();
 
-  /* $("#filter_account").on("change", async function () {
-    let accounts = await getAccounts();
-    let categories = await getCategories();
-    let transactions = buildTransactionsWithUsernameAndCategory(
-      accounts,
-      categories
-    );
-    
-    fillTransactionsTable2(transactions.filter((transaction)=> transaction.accountId == $(this).val()))
-  }); */
-
-  $("#filter_account").on("change", filterTransactionsTable);
-  $("#filter_category").on("change", filterTransactionsTable);
-  $("#filter_transaction").on("change", filterTransactionsTable);
+  $("#filter_account, #filter_category, #filter_transaction").on("change", filterTransactionsTable);
 });
 
 async function filterTransactionsTable() {
@@ -58,14 +43,14 @@ async function filterTransactionsTable() {
     accounts,
     categories
   );
-  console.log(accountsFilter);
+  
   if (accountsFilter) {
     transactions = transactions.filter(
       (transaction) => transaction.accountId == accountsFilter
     );
   }
 
-  console.log(categoriesFilter);
+  
   if (categoriesFilter) {
     transactions = transactions.filter(
       (transaction) => transaction.categoryId == categoriesFilter
@@ -154,7 +139,6 @@ async function getAccounts() {
   return new Promise((resolve, reject) => {
     $.ajax("http://localhost:3000/accounts")
       .done(function (accounts) {
-        //accountsGlobal = accounts;
         resolve(accounts);
       })
       .fail(function (error) {
@@ -218,7 +202,6 @@ async function getCategories() {
   return new Promise((resolve, reject) => {
     $.ajax("http://localhost:3000/categories")
       .done(function (categories) {
-        //categoriesGlobal = categories;
         resolve(categories);
       })
       .fail(function (error) {
