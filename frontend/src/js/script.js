@@ -300,50 +300,6 @@ function fillTransactionsTable2(transactions) {
   });
 }
 
-/* function fillTransactionsTable(transactions) {
-
-  if (accountsGlobal.length > 0) {
-    $("#table_body").empty();
-
-    accountsGlobal.forEach((account) => {
-      if (account.transactions.length > 0) {
-        account.transactions.forEach((transaction) => {
-          let transCategory = "";
-          categoriesGlobal.forEach((category) => {
-            if (category.id == transaction.categoryId) {
-              transCategory = category.name;
-            }
-          });
-
-          let transferToAcc = "";
-          let transferFromAcc = account.username;
-          accountsGlobal.forEach((acc) => {
-            if (acc.id == transaction.accountIdFrom) {
-              transferFromAcc = acc.username;
-            }
-            if (acc.id == transaction.accountIdTo) {
-              transferToAcc = acc.username;
-            }
-          });
-
-          let tr = $("<tr>").append(
-            $("<td>").text(account.id),
-            $("<td>").text(account.username),
-            $("<td>").text(transaction.type),
-            $("<td>").text(transCategory),
-            $("<td>").text(transaction.description),
-            $("<td>").text(transaction.amount),
-            $("<td>").text(transferFromAcc),
-            $("<td>").text(transferToAcc)
-          );
-
-          $("#table_body").append(tr);
-        });
-      }
-    });
-  }
-} */
-
 function buildNewTransactionAccounts(accounts) {
   buildAccountSelect(accounts, "#select_account");
   buildAccountSelect(accounts, "#select_category");
