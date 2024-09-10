@@ -27,9 +27,11 @@ $(() => {
     }
   });
 
+  $("#filter_account, #filter_category, #filter_transaction").on(
+    "change",
+    filterTransactionsTable
+  );
   loadServerData();
-
-  $("#filter_account, #filter_category, #filter_transaction").on("change", filterTransactionsTable);
 });
 
 async function filterTransactionsTable() {
@@ -43,14 +45,13 @@ async function filterTransactionsTable() {
     accounts,
     categories
   );
-  
+
   if (accountsFilter) {
     transactions = transactions.filter(
       (transaction) => transaction.accountId == accountsFilter
     );
   }
 
-  
   if (categoriesFilter) {
     transactions = transactions.filter(
       (transaction) => transaction.categoryId == categoriesFilter
@@ -469,18 +470,6 @@ async function createNewTransfer(type, transferFrom, transferTo) {
       $("#select_category option[value=null]").prop("selected", true);
     })
     .catch((error) => console.error(error));
-}
-
-async function getTransactions() {
-  return new Promise((resolve, reject) => {
-    $.ajax("http://localhost:3000/transactions")
-      .done(function (transactions) {
-        resolve(transactions);
-      })
-      .fail(function (error) {
-        reject(error);
-      });
-  });
 }
 
 function calculateAccountsBalance(accounts) {
